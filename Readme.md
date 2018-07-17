@@ -3,22 +3,26 @@ CLI tool for Zox.js
 
 [Official Zox.js site](http://zoxjs.com)
 
-## Usage
-
-For official templates:
+### Install
 
 ```bash
-zox init github-repo my-site-name
+npm i -g zox-cli
 ```
 
-Example:
+### Usage
 
 ```bash
-zox init static-site-handlebars my-site-name
+zox init <template-name> <project-name>
 ```
 
-For third party templates:
+### Example:
 
 ```bash
-zox init github-username/github-repo my-site-name
+zox init static-site-handlebars my-site
+```
+
+### Custom templates
+
+```bash
+vue init <username>/<repo> <my-project>
 ```
