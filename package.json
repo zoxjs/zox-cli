@@ -1,0 +1,26 @@
+{
+  "name": "zox-cli",
+  "version": "1.0.0",
+  "description": "CLI tool for Zox.js",
+  "author": "Zoran Ravic <contact@zoranravic.com> (zoranravic.com)",
+  "license": "MIT",
+  "repository": "zoxjs/zox-cli",
+  "homepage": "http://zoxjs.com/",
+  "main": "index.js",
+  "files": [
+    "LICENSE",
+    "Readme.md",
+    "index.js",
+    "index.d.ts"
+  ],
+  "keywords": [
+    "zox",
+    "cli"
+  ],
+  "bin": {
+    "zox": "./bin/zox"
+  },
+  "devDependencies": {
+    "@types/node": "^10.5.2"
+  }
+}
