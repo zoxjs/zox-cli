@@ -15,7 +15,7 @@ npm i -g zox-cli
 zox init <template-name> <project-name>
 ```
 
-### Example:
+### Example
 
 ```bash
 zox init static-site-handlebars my-site
@@ -24,5 +24,13 @@ zox init static-site-handlebars my-site
 ### Custom templates
 
 ```bash
-vue init <username>/<repo> <my-project>
+zox init <username>/<repo> <my-project>
 ```
+
+### Required global tools
+
+**git** for cloning the project
+
+**npm** for installing dependencies
+
+**tsc** for compiling typescript
