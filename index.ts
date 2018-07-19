@@ -2,32 +2,95 @@ import * as child_process from "child_process";
 import * as fs from "fs";
 import * as path from "path";
 
-if (process.argv[2] == 'init' && process.argv.length >= 5)
+if (process.argv[2] == 'init')
 {
-    let repo = process.argv[3];
-    if (repo.indexOf('/') < 0)
+    if (process.argv.length >= 5)
     {
-        repo = 'zoxjs/' + repo;
+        init(process.argv[3], process.argv[4]);
     }
-    const name = process.argv[4];
+    else
+    {
+        console.log('Command "init" requires 2 parameters');
+    }
+}
+else
+{
+    console.log('Unknown command: ' + process.argv[2]);
+}
+
+function init(repo: string, name: string)
+{
+    if (fs.existsSync(name))
+    {
+        console.log(`Project "${name}" already exists.`);
+        return;
+    }
+
+    if (repo.indexOf('http') != 0)
+    {
+        if (repo.indexOf('/') < 0)
+        {
+            repo = `https://github.com/zoxjs/${repo}.git`;
+        }
+        else
+        {
+            let domain;
+            let userRepo;
+            if (repo.indexOf(':') >= 0)
+            {
+                const parts = repo.split(':', 2);
+                domain = parts[0].indexOf('.') >= 0 ? parts[0] : parts[0] + '.com';
+                userRepo = parts[1];
+            }
+            else
+            {
+                domain = 'github.com';
+                userRepo = repo;
+            }
+            repo = `https://${domain}/${userRepo}.git`;
+        }
+    }
 
     console.log('Cloning template repo...');
     fs.mkdirSync(name);
     process.chdir(`./${name}`);
     fs.mkdirSync('www');
-    child_process.execSync(`git clone --depth=1 https://github.com/${repo}.git ${name}-source`, {stdio:[0,1,2]});
+    try
+    {
+        child_process.execSync(`git clone --depth=1 ${repo} ${name}-source`, {stdio: [0, 1, 2]});
+    }
+    catch(e)
+    {
+        process.chdir('..');
+        deleteDirectorySync(name);
+        return;
+    }
     process.chdir(`./${name}-source`);
     deleteDirectorySync('./.git');
 
     console.log('Initializing...');
-    child_process.execSync(`npm i`, {stdio:[0,1,2]});
-    child_process.execSync(`tsc`, {stdio:[0,1,2]});
-    child_process.execSync(`node template ${name}`, {stdio:[0,1,2]});
+    try
+    {
+        child_process.execSync(`npm i`, {stdio: [0, 1, 2]});
+    }
+    catch(e)
+    {
+        console.error('\nFailed to install dependencies.');
+        return;
+    }
+    try
+    {
+        child_process.execSync(`tsc`, {stdio: [0, 1, 2]});
+    }
+    catch(e)
+    {
+        console.error('\nFailed to compile TypeScript files.\nIf you don\'t have "tsc" installed run\nnpm i -g typescript');
+        return;
+    }
+    child_process.execSync(`node template ${name}`, {stdio: [0, 1, 2]});
     deleteTypeScript('template');
-}
-else
-{
-    console.log('Unknown command: ' + process.argv.slice(2).join(' '));
+
+    console.log(`Created project "${name}".`);
 }
 
 function deleteDirectorySync(directory: string)
