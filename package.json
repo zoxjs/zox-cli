@@ -1,6 +1,6 @@
 {
   "name": "zox-cli",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "CLI tool for Zox.js",
   "author": "Zoran Ravic <contact@zoranravic.com> (zoranravic.com)",
   "license": "MIT",
