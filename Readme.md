@@ -1,7 +1,5 @@
 
-CLI tool for Zox.js
-
-[Official Zox.js site](http://zoxjs.com)
+The easiest way to setup a new [Zox.js](http://zoxjs.com) project is using the CLI tool.
 
 ### Install
 
@@ -11,12 +9,11 @@ npm i -g zox-cli
 
 ### Required global tools
 
-**git** for cloning the project
+[node](https://nodejs.org/) to run the project
 
-**npm** for installing dependencies
+[git](https://git-scm.com/downloads) for cloning the project
 
-**tsc** for compiling typescript
-
+[tsc](https://www.npmjs.com/package/typescript) for compiling typescript
 
 ### Usage
 
