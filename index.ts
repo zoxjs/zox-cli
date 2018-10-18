@@ -2,7 +2,16 @@ import * as child_process from "child_process";
 import * as fs from "fs";
 import * as path from "path";
 
-if (process.argv[2] == 'init')
+if (process.argv.length < 3 || process.argv[2].indexOf('help') >= 0)
+{
+    console.log(
+        'Usage:\n' +
+        'zox init <template-name> <project-name>\n' +
+        'zox init <username>/<repo> <project-name>\n' +
+        'Example:\n' +
+        'zox init static-site-handlebars my-site\n');
+}
+else if (process.argv[2] == 'init')
 {
     if (process.argv.length >= 5)
     {
@@ -88,7 +97,7 @@ function init(repo: string, name: string)
         return;
     }
     child_process.execSync(`node template ${name}`, {stdio: [0, 1, 2]});
-    deleteTypeScript('template');
+    deleteTypeScriptSync('template');
 
     console.log(`Created project "${name}".`);
 }
@@ -116,15 +125,15 @@ function deleteDirectorySync(directory: string)
     fs.rmdirSync(directory);
 }
 
-function deleteTypeScript(file: string)
+function deleteTypeScriptSync(file: string)
 {
-    tryDelete(file + '.ts');
-    tryDelete(file + '.d.ts');
-    tryDelete(file + '.js');
-    tryDelete(file + '.js.map');
+    tryDeleteSync(file + '.ts');
+    tryDeleteSync(file + '.d.ts');
+    tryDeleteSync(file + '.js');
+    tryDeleteSync(file + '.js.map');
 }
 
-function tryDelete(file: string)
+function tryDeleteSync(file: string)
 {
     try
     {
